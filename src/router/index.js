@@ -1,20 +1,99 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import { projectAuth } from "@/configs/firebase";
+
+// Auth Guard
+const requireAuth = (to, from, next) => {
+  const user = projectAuth.currentUser;
+
+  if(!user) next({ name: 'Login', params: {}})
+  else next();
+}
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "Index",
+    meta: {
+      text: "Hey, Asuna",
+      leading: true,
+      isShowFooter: true,
+      icon: "t2ico-notification"
+    },
+    component: () =>
+      import(/* webpackChunkName: "index" */ "../views/IndexView.vue"),
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/register",
+    name: "Register",
+    meta: {
+      layout: "auth",
+    },
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+      import(/* webpackChunkName: "register" */ "../views/RegisterView.vue"),
+  },
+  {
+    path: "/login",
+    name: "Login",
+    meta: {
+      layout: "auth",
+    },
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    meta: {
+      text: "My Profile",
+      leading: false,
+      isShowFooter: true,
+      icon: "t2ico-setting"
+    },
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/ProfileView.vue"),
+    beforeEnter: requireAuth,
+  },
+  {
+    path: "/logout",
+    name: "Logout",
+    component: () =>
+      import(/* webpackChunkName: "logout" */ "../views/LogoutView.vue"),
+  },
+  {
+    path: "/report",
+    name: "Report",
+    meta: {
+      text: "My Report",
+      leading: false,
+      isShowFooter: true,
+      icon: "t2ico-filter"
+    },
+    component: () =>
+      import(/* webpackChunkName: "report" */ "../views/ReportView.vue"),
+  },
+  {
+    path: "/budget",
+    name: "Budget",
+    meta: {
+      text: "Budget",
+      leading: false,
+      isShowFooter: true,
+      icon: "t2ico-presentation"
+    },
+    component: () =>
+      import(/* webpackChunkName: "budget" */ "../views/BudgetView.vue"),
+  },
+  {
+    path: "/new-transaction",
+    name: "NewTransaction",
+    meta: {
+      text: "New Transaction",
+      leading: false,
+      isShowFooter: true,
+      icon: "t2ico-plus"
+    },
+    component: () =>
+      import(/* webpackChunkName: "transaction" */ "../views/NewTransactionView.vue"),
   },
 ];
 
