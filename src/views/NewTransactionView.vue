@@ -175,7 +175,7 @@
 
       <button
         type="submit"
-        class="bg-blue-500 opacity-50 mx-auto h-8 w-full text-white"
+        class="bg-primary mx-auto h-8 w-full text-white"
         @click="() => togglePopup('buttonTrigger')"
       >
         Add transaction
