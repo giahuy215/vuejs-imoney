@@ -175,7 +175,7 @@
 
       <button
         type="submit"
-        class="bg-primary mx-auto h-8 w-full text-white"
+        class="bg-blue-500 opacity-50 mx-auto h-8 w-full text-white"
         @click="() => togglePopup('buttonTrigger')"
       >
         Add transaction
@@ -186,10 +186,6 @@
         :togglePopup="() => togglePopup('buttonTrigger')"
       >
         <h2>Create transaction successfull !!</h2>
-      </PopupTransaction>
-
-      <PopupTransaction v-if="popupTriggers.timeTrigger">
-        <h2>Create transaction fail !!</h2>
       </PopupTransaction>
     </template>
   </form>
@@ -207,7 +203,7 @@ export default {
     const { getUser } = useUser();
     const { error, addRecord } = useCollection("transactions");
     const { url, uploadFile } = useStorage("transactions");
-    const total = ref(0);
+    const total = ref("");
     const category = ref("");
     const note = ref("");
     const time = ref(new Date());
@@ -255,6 +251,7 @@ export default {
       await addRecord(transaction);
       console.log(error);
     }
+
     return {
       onChangeFile,
       onSubmit,
