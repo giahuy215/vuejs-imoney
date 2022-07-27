@@ -90,7 +90,7 @@ const routes = [
       text: "New Transaction",
       leading: false,
       isShowFooter: true,
-      icon: "t2ico-plus"
+      icon: "t2ico-document"
     },
     component: () =>
       import(/* webpackChunkName: "transaction" */ "../views/NewTransactionView.vue"),

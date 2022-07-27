@@ -173,9 +173,24 @@
         <div class="text-red my-3 ml-8">{{ errorFlie }}</div>
       </div>
 
-      <button type="submit" class="bg-primary text-white">
-        test add button
+      <button
+        type="submit"
+        class="bg-primary mx-auto h-8 w-full text-white"
+        @click="() => togglePopup('buttonTrigger')"
+      >
+        Add transaction
       </button>
+
+      <PopupTransaction
+        v-if="popupTriggers.buttonTrigger"
+        :togglePopup="() => togglePopup('buttonTrigger')"
+      >
+        <h2>Create transaction successfull !!</h2>
+      </PopupTransaction>
+
+      <PopupTransaction v-if="popupTriggers.timeTrigger">
+        <h2>Create transaction fail !!</h2>
+      </PopupTransaction>
     </template>
   </form>
 </template>
@@ -185,13 +200,13 @@ import { ref } from "vue";
 import { useUser } from "@/composables/useUser";
 import useCollection from "@/composables/useCollection";
 import useStorage from "@/composables/useStorage";
+import PopupTransaction from "../components/PopupTransaction.vue";
 export default {
   setup() {
     const isMoreDetails = ref(false);
     const { getUser } = useUser();
     const { error, addRecord } = useCollection("transactions");
     const { url, uploadFile } = useStorage("transactions");
-
     const total = ref(0);
     const category = ref("");
     const note = ref("");
@@ -200,12 +215,18 @@ export default {
     const person = ref("");
     const file = ref(null);
     const errorFlie = ref(null);
+    const popupTriggers = ref({
+      buttonTrigger: false,
+      timeTrigger: false,
+    });
+    const togglePopup = (trigger) => {
+      popupTriggers.value[trigger] = !popupTriggers.value[trigger];
+    };
 
     function onChangeFile(event) {
       const selected = event.target.files[0];
       const typesFile = ["image/png", "image/jpg"];
       errorFlie.value = null;
-
       if (selected && typesFile.includes(selected.type)) {
         file.value = selected;
       } else {
@@ -214,15 +235,12 @@ export default {
         console.log(errorFlie.value);
       }
     }
-
     async function onSubmit() {
       console.log(file);
       if (file.value) {
         await uploadFile(file.value);
       }
-
       const { user } = getUser();
-
       const transaction = {
         total: parseInt(total.value),
         category: category.value,
@@ -235,10 +253,8 @@ export default {
       };
       console.log(transaction);
       await addRecord(transaction);
-
       console.log(error);
     }
-
     return {
       onChangeFile,
       onSubmit,
@@ -249,8 +265,11 @@ export default {
       location,
       person,
       time,
+      popupTriggers,
       note,
+      togglePopup,
     };
   },
+  components: { PopupTransaction },
 };
 </script>
