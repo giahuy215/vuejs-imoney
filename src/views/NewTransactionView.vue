@@ -17,9 +17,10 @@
                 <input
                   id="total"
                   class="text-4xl text-dark w-full outline-none mt-1"
-                  type="text"
+                  type="number"
                   placeholder="0"
                   v-model="total"
+                  required
                 />
               </div>
             </label>
@@ -40,6 +41,7 @@
                   type="text"
                   placeholder="Select category"
                   v-model="category"
+                  required
                 />
               </div>
             </label>
@@ -104,7 +106,7 @@
     <template v-if="isMoreDetails">
       <!-- Start Advance Form -->
       <div class="row mt-6">
-        <div class="bg-white rounded-lg py-4">
+        <div class="bg-white rounded-lg py-2">
           <div class="container mx-auto px-8">
             <div class="row">
               <label for="location" class="flex items-center">
@@ -148,7 +150,7 @@
 
       <!-- Start upload photo -->
       <div class="row mt-6">
-        <div class="bg-white rounded-lg py-4">
+        <div class="bg-white rounded-lg mt-4">
           <div class="container mx-auto px-8">
             <div class="row">
               <label for="file" class="flex items-center text-primary">
@@ -172,22 +174,30 @@
         </div>
         <div class="text-red my-3 ml-8">{{ errorFlie }}</div>
       </div>
-
-      <button
-        type="submit"
-        class="bg-primary mx-auto h-8 w-full text-white"
-        @click="() => togglePopup('buttonTrigger')"
-      >
-        Add transaction
-      </button>
-
-      <PopupTransaction
-        v-if="popupTriggers.buttonTrigger"
-        :togglePopup="() => togglePopup('buttonTrigger')"
-      >
-        <h2>Create transaction successfull !!</h2>
-      </PopupTransaction>
     </template>
+    <button
+      v-if="checkValue()"
+      type="submit"
+      class="bg-primary opacity-50 mx-auto mt-4 h-8 w-full text-white"
+    >
+      Add transaction
+    </button>
+
+    <button
+      v-else
+      type="submit"
+      class="bg-primary mx-auto mt-4 h-8 w-full text-white"
+      @click="() => togglePopup('buttonTrigger')"
+    >
+      Add transaction
+    </button>
+
+    <PopupTransaction
+      v-if="popupTriggers.buttonTrigger"
+      :togglePopup="() => togglePopup('buttonTrigger')"
+    >
+      <h2>Create transaction successfull !!</h2>
+    </PopupTransaction>
   </form>
 </template>
 
@@ -231,6 +241,15 @@ export default {
         console.log(errorFlie.value);
       }
     }
+
+    function checkValue() {
+      if (total.value === "" || category.value === "") {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     async function onSubmit() {
       console.log(file);
       if (file.value) {
@@ -250,11 +269,15 @@ export default {
       console.log(transaction);
       await addRecord(transaction);
       console.log(error);
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
     }
 
     return {
       onChangeFile,
       onSubmit,
+      checkValue,
       isMoreDetails,
       total,
       category,

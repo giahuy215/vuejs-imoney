@@ -1,13 +1,13 @@
 <template>
-  <div class="popup">
-    <div class="popup-inner">
+  <div class="popup border">
+    <div class="popup-inner border-2 border-blue-600">
       <slot></slot>
-      <button
+      <!-- <button
         class="popup-close bg-primary rounded-md text-white w-20 h-8 mt-4"
         @click="togglePopup()"
       >
         Confirm
-      </button>
+      </button> -->
     </div>
   </div>
 </template>

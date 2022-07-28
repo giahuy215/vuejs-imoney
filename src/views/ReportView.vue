@@ -1,3 +1,7 @@
 <template>
-  <h1>Report Page</h1>
+  <h1>report page</h1>
 </template>
+
+<script>
+export default {};
+</script>

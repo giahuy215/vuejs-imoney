@@ -14,7 +14,7 @@ const routes = [
     path: "/",
     name: "Index",
     meta: {
-      text: "Hey, Asuna",
+      text: "Hey, ",
       leading: true,
       isShowFooter: true,
       icon: "t2ico-notification"
