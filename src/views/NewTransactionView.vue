@@ -207,6 +207,7 @@ import { useUser } from "@/composables/useUser";
 import useCollection from "@/composables/useCollection";
 import useStorage from "@/composables/useStorage";
 import PopupTransaction from "../components/PopupTransaction.vue";
+import moment from "moment";
 export default {
   setup() {
     const isMoreDetails = ref(false);
@@ -216,7 +217,7 @@ export default {
     const total = ref("");
     const category = ref("");
     const note = ref("");
-    const time = ref(new Date());
+    const time = ref(moment(new Date()).format("DD-MM-YYYY"));
     const location = ref("");
     const person = ref("");
     const file = ref(null);

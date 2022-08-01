@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-Note
+Note.txt
+.vscode
 
 # local env files
 .env.local
